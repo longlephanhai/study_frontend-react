@@ -25,7 +25,7 @@ function App() {
       ],
     },
     {
-      path:"/login",
+      path:"auth/login",
       element:<LoginPage />
     }
   ]);
