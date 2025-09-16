@@ -12,9 +12,13 @@ import {
   ProFormCaptcha,
   ProFormText,
 } from '@ant-design/pro-components';
-import { Button, Divider, Space, Tabs, message, theme } from 'antd';
+import { useMutation } from '@tanstack/react-query';
+import { Button, Divider, Space, Tabs, message, notification, theme } from 'antd';
 import type { CSSProperties } from 'react';
 import { useState } from 'react';
+import { callApiLogin } from '../../services/api';
+import { useNavigate } from 'react-router-dom';
+import type { AxiosError } from 'axios';
 
 type LoginType = 'phone' | 'account';
 
@@ -25,9 +29,39 @@ const iconStyles: CSSProperties = {
   cursor: 'pointer',
 };
 
+interface ILoginParams {
+  email: string;
+  password: string;
+}
+
 const LoginPage = () => {
   const [loginType, setLoginType] = useState<LoginType>('account');
   const { token } = theme.useToken();
+  const navigate = useNavigate()
+
+  const mutation = useMutation<IBackendRes<IAccount>, Error, ILoginParams>({
+    mutationFn: callApiLogin,
+    onSuccess: (response) => {
+
+      if (response.data) {
+        localStorage.setItem('access_token', response.data.access_token);
+        navigate('/');
+      }
+    },
+    onError: (error) => {
+      notification.error({
+        message: "Có lỗi xảy ra",
+        description:
+          error.message,
+        duration: 5
+      });
+    }
+  });
+
+  const onFinish = async (values: any) => {
+    mutation.mutate(values);
+  }
+
   return (
     <div
       style={{
@@ -44,8 +78,8 @@ const LoginPage = () => {
           backgroundColor: 'rgba(0, 0, 0,0.65)',
           backdropFilter: 'blur(4px)',
         }}
+        onFinish={onFinish}
         submitter={{
-
           render: (_, __) => {
             return [
               <Button
@@ -56,7 +90,6 @@ const LoginPage = () => {
               >
                 Log In Now
               </Button>,
-
             ];
           },
         }}
@@ -131,7 +164,7 @@ const LoginPage = () => {
         {loginType === 'account' && (
           <>
             <ProFormText
-              name="username"
+              name="email"
               fieldProps={{
                 size: 'large',
                 prefix: (
@@ -144,12 +177,14 @@ const LoginPage = () => {
                 ),
               }}
               placeholder={'Enter your email'}
-              rules={[
-                {
-                  required: true,
-                  message: 'Please enter your email!',
-                },
-              ]}
+              rules={[{
+                required: true,
+                message: 'Please enter your email!',
+              },
+              {
+                type: 'email',
+                message: 'Invalid email format!',
+              }]}
             />
             <ProFormText.Password
               name="password"
