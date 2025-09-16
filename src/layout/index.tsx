@@ -1,10 +1,7 @@
-import {
-  VideoCameraOutlined,
-} from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
 
 import { useEffect, useState } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import HeaderLayout from '../components/header';
 import FooterLayout from '../components/footer';
 import { MdDashboard } from "react-icons/md";
@@ -14,6 +11,7 @@ const { Sider, Content } = Layout;
 const LayoutAdmin = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [pathName, setPathName] = useState('');
+  const navigate = useNavigate()
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -23,7 +21,7 @@ const LayoutAdmin = () => {
     const currentPath = location.pathname.split('/')[1]
     setPathName(currentPath ? currentPath : '/')
   }, [location.pathname])
-  
+
   return (
     <>
       <Layout>
@@ -42,11 +40,13 @@ const LayoutAdmin = () => {
                 key: '/',
                 icon: <MdDashboard />,
                 label: 'Dashboard',
+                onClick: () => navigate('/')
               },
               {
                 key: 'user',
                 icon: <FaUserAlt />,
                 label: 'Users',
+                onClick: () => navigate('/user')
               },
             ]}
           />

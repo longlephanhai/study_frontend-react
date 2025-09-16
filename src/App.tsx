@@ -5,6 +5,7 @@ import {
 import DashboardPage from "./pages/dashboard";
 import UserPage from "./pages/user";
 import LayoutAdmin from "./layout";
+import LoginPage from "./pages/auth";
 
 function App() {
 
@@ -23,7 +24,10 @@ function App() {
         },
       ],
     },
-
+    {
+      path:"/login",
+      element:<LoginPage />
+    }
   ]);
 
   return (
