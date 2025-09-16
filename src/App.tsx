@@ -6,6 +6,9 @@ import DashboardPage from "./pages/dashboard";
 import UserPage from "./pages/user";
 import LayoutAdmin from "./layout";
 import LoginPage from "./pages/auth";
+import ErrorPage from "./pages/error";
+import NotFoundPage from "./pages/notfound";
+import RolePage from "./pages/role";
 
 function App() {
 
@@ -13,6 +16,7 @@ function App() {
     {
       path: "/",
       element: <LayoutAdmin />,
+      errorElement: <ErrorPage />,
       children: [
         {
           path: "/",
@@ -22,11 +26,19 @@ function App() {
           path: "user",
           element: <UserPage />,
         },
+        {
+          path: "role",
+          element: <RolePage />,
+        }
       ],
     },
     {
-      path:"auth/login",
-      element:<LoginPage />
+      path: "auth/login",
+      element: <LoginPage />
+    },
+    {
+      path: "*",
+      element: <NotFoundPage />
     }
   ]);
 

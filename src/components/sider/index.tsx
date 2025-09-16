@@ -1,5 +1,6 @@
 import { MdDashboard } from "react-icons/md";
 import { FaUserAlt } from "react-icons/fa";
+import { FaUserLock } from "react-icons/fa6";
 import { Layout, Menu } from 'antd';
 import { useNavigate } from "react-router-dom";
 const { Sider } = Layout;
@@ -36,6 +37,12 @@ const SiderLayout = (props: IProps) => {
             label: 'Users',
             onClick: () => navigate('/user')
           },
+          {
+            key: 'roles',
+            icon: <FaUserLock />,
+            label: 'Roles',
+            onClick: () => navigate('/role')
+          }
         ]}
       />
     </Sider>
