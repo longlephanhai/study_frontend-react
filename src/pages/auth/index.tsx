@@ -18,7 +18,7 @@ import type { CSSProperties } from 'react';
 import { useState } from 'react';
 import { callApiLogin } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
-import type { AxiosError } from 'axios';
+
 
 type LoginType = 'phone' | 'account';
 

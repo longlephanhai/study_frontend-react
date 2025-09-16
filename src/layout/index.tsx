@@ -1,17 +1,15 @@
-import { Layout, Menu, theme } from 'antd';
+import { Layout, theme } from 'antd';
 
 import { useEffect, useState } from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import HeaderLayout from '../components/header';
 import FooterLayout from '../components/footer';
-import { MdDashboard } from "react-icons/md";
-import { FaUserAlt } from "react-icons/fa";
-const { Sider, Content } = Layout;
+import SiderLayout from '../components/sider';
+const { Content } = Layout;
 
 const LayoutAdmin = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [pathName, setPathName] = useState('');
-  const navigate = useNavigate()
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -25,32 +23,10 @@ const LayoutAdmin = () => {
   return (
     <>
       <Layout>
-        <Sider trigger={null} collapsible collapsed={collapsed}>
-          <div>
-            <h1 style={{ color: 'white', textAlign: 'center', padding: '16px' }}>
-              {collapsed ? 'Logo' : 'Big Logo'}
-            </h1>
-          </div>
-          <Menu
-            theme="dark"
-            mode="inline"
-            selectedKeys={[`${pathName}`]}
-            items={[
-              {
-                key: '/',
-                icon: <MdDashboard />,
-                label: 'Dashboard',
-                onClick: () => navigate('/')
-              },
-              {
-                key: 'user',
-                icon: <FaUserAlt />,
-                label: 'Users',
-                onClick: () => navigate('/user')
-              },
-            ]}
-          />
-        </Sider>
+        <SiderLayout
+          collapsed={collapsed}
+          pathName={pathName}
+        />
         <Layout>
           <HeaderLayout
             collapsed={collapsed}
