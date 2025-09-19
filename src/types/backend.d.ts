@@ -21,8 +21,48 @@ declare global {
       email: string;
       role: string;
       age: number;
+      avatar?: string;
       address: string;
       phone: number;
     }
   }
+
+  interface IModelPaginate<T> {
+    meta: {
+      current: number;
+      pageSize: number;
+      pages: number;
+      total: number;
+    },
+    result: T[]
+  }
+
+  interface IUser {
+    _id: string;
+    fullName: string;
+    email: string;
+    password?: string;
+    avatar?: string;
+    role: {
+      _id: string;
+      name: string;
+      description?: string;
+      permissions?: string[];
+    };
+    age: number;
+    address: string;
+    phone: number;
+  }
+
+  interface IRole {
+    _id: string,
+    name: string,
+    description?: string,
+    permissions?: string[],
+    createdBy: {
+      _id: string,
+      email: string
+    },
+  }
 }
+

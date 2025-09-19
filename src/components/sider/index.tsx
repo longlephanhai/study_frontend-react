@@ -38,7 +38,7 @@ const SiderLayout = (props: IProps) => {
             onClick: () => navigate('/user')
           },
           {
-            key: 'roles',
+            key: 'role',
             icon: <FaUserLock />,
             label: 'Roles',
             onClick: () => navigate('/role')
