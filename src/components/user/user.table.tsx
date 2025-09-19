@@ -16,6 +16,7 @@ const TableUser = (props: IProps) => {
   const [loading, setLoading] = useState(false);
 
   const columns: TableColumnsType<IUser> = [
+    { title: 'ID', dataIndex: '_id', key: '_id', render: text => <a>{text}</a> },
     { title: 'Name', dataIndex: 'fullName', key: 'fullName' },
     { title: 'Age', dataIndex: 'age', key: 'age' },
     { title: 'Address', dataIndex: 'address', key: 'address' },

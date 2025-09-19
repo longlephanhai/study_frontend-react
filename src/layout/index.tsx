@@ -42,7 +42,14 @@ const LayoutAdmin = () => {
               borderRadius: borderRadiusLG,
             }}
           >
-            <Outlet />
+            <div style={{
+              minHeight: '69vh',
+              background: colorBgContainer,
+              borderRadius: borderRadiusLG,
+              padding: 24,
+            }}>
+              <Outlet />
+            </div>
           </Content>
           <FooterLayout />
         </Layout>

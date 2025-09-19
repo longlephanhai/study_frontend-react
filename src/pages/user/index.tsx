@@ -2,6 +2,8 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { callApiFetchUsers } from '../../services/api';
 import TableUser from '../../components/user/user.table';
+import UserHead from '../../components/user/user.head';
+import { Divider } from 'antd';
 
 
 const UserPage = () => {
@@ -31,6 +33,8 @@ const UserPage = () => {
 
   return (
     <>
+      <UserHead />
+      <Divider />
       {data &&
         <TableUser
           data={data}
