@@ -1,8 +1,10 @@
-import { useQuery } from "@tanstack/react-query"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useState } from "react";
 import { callApiFetchRoles } from "../../services/api";
+import TableRole from "../../components/role/role.table";
 
 const RolePage = () => {
+  const queryClient = useQueryClient();
 
   const [query, setQuery] = useState(`current=1&pageSize=2`);
 
@@ -19,8 +21,21 @@ const RolePage = () => {
     return <span>Error: {error.message}</span>
   }
 
+  //@ts-ignore
+  const onChange = (pagination, filters, sorter, extra) => {
+    setQuery(`current=${pagination.current}&pageSize=${pagination.pageSize}`);
+    queryClient.invalidateQueries({ queryKey: ['fetchRole', query] });
+  };
+
   return (
-    <div>RolePage</div>
+    <>
+      {
+        data && <TableRole
+          data={data}
+          onChange={onChange}
+        />
+      }
+    </>
   )
 }
 
