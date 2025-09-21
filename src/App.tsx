@@ -9,8 +9,20 @@ import LoginPage from "./pages/auth";
 import ErrorPage from "./pages/error";
 import NotFoundPage from "./pages/notfound";
 import RolePage from "./pages/role";
+import { useAppDispatch } from "./hook/hooks";
+import { useEffect } from "react";
+import { fetchAccount } from "./redux/user/userSlice";
 
 function App() {
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (
+      window.location.pathname === 'auth/login'
+    )
+      return;
+    dispatch(fetchAccount())
+  }, [])
 
   const router = createBrowserRouter([
     {

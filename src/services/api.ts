@@ -11,3 +11,22 @@ export const callApiFetchUsers = async (query: string): Promise<IBackendRes<IMod
 export const callApiFetchRoles = async (query: string): Promise<IBackendRes<IModelPaginate<IRole>>> => {
   return await axios.get(`/api/roles?${query}`);
 }
+
+export const callApiUploadAvatar = async (file: File): Promise<IBackendRes<IUploadFile>> => {
+  const formData = new FormData();
+  formData.append('fileUpload', file);
+  return await axios.post('/api/files/upload', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      "folder_type": "avatar"
+    }
+  });
+}
+
+export const callApiCreateUser = async (data: IUser): Promise<IBackendRes<IUser>> => {
+  return await axios.post('/api/users', data);
+}
+
+export const callApiGetAccount = async (): Promise<IBackendRes<IUser>> => {
+  return await axios.get('/api/auth/account');
+}

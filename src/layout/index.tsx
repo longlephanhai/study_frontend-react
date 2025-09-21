@@ -20,6 +20,7 @@ const LayoutAdmin = () => {
     setPathName(currentPath ? currentPath : '/')
   }, [location.pathname])
 
+
   return (
     <>
       <Layout>

@@ -15,9 +15,11 @@ import {
 import { useMutation } from '@tanstack/react-query';
 import { Button, Divider, Space, Tabs, message, notification, theme } from 'antd';
 import type { CSSProperties } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { callApiLogin } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hook/hooks';
+import { setUserLoginInfo } from '../../redux/user/userSlice';
 
 
 type LoginType = 'phone' | 'account';
@@ -39,12 +41,23 @@ const LoginPage = () => {
   const { token } = theme.useToken();
   const navigate = useNavigate()
 
+  const dispatch = useAppDispatch();
+  const isAuthenticated = useAppSelector(state => state.user.isAuthenticated)
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      window.location.href = '/';
+    }
+  }, [isAuthenticated]);
+
   const mutation = useMutation<IBackendRes<IAccount>, Error, ILoginParams>({
     mutationFn: callApiLogin,
     onSuccess: (response) => {
 
       if (response.data) {
         localStorage.setItem('access_token', response.data.access_token);
+        dispatch(setUserLoginInfo(response.data.user));
+        message.success('Đăng nhập tài khoản thành công!');
         navigate('/');
       }
     },

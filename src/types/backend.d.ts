@@ -48,7 +48,7 @@ declare global {
       name: string;
       description?: string;
       permissions?: string[];
-    };
+    } | string;
     age: number;
     address: string;
     phone: number;
@@ -64,5 +64,16 @@ declare global {
       email: string
     },
   }
+
+  interface IUploadFile {
+    statusCode: number;
+    message: string;
+    data: {
+      filename: string;
+      path: string;
+      url: string;
+    }
+  }
+
 }
 
