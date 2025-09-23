@@ -1,6 +1,9 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Button, Flex, Table, type TableColumnsType, type TableProps } from 'antd';
 import { useState } from 'react';
+import RoleModalUpdate from './role.modal.update';
+import { useQuery } from '@tanstack/react-query';
+import { callApiFetchPermissions } from '../../services/api';
 
 type TableRowSelection<T extends object = object> = TableProps<T>['rowSelection'];
 
@@ -15,13 +18,20 @@ const TableRole = (props: IProps) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [loading, setLoading] = useState(false);
 
+  const [isModalOpenUpdate, setIsModalOpenUpdate] = useState(false);
+
+  const [dataEdit, setDataEdit] = useState<IRole | null>(null);
+
   const columns: TableColumnsType<IRole> = [
     { title: 'Name', dataIndex: 'name', key: 'name' },
     { title: 'Description', dataIndex: 'description', key: 'description' },
     {
       title: 'Action', key: 'action', render: (_, record) => (
         <>
-          <Button icon={<EditOutlined />} type="primary" style={{ marginRight: 8 }} onClick={() => { alert(`Edit ${record._id}`) }}>Edit</Button>
+          <Button icon={<EditOutlined />} type="primary" style={{ marginRight: 8 }} onClick={() => {
+            setIsModalOpenUpdate(true)
+            setDataEdit(record)
+          }}>Edit</Button>
           <Button icon={<DeleteOutlined />} type="primary" danger onClick={() => { alert(`Delete ${record._id}`) }}>Delete</Button>
         </>
       )
@@ -48,6 +58,18 @@ const TableRole = (props: IProps) => {
 
   const hasSelected = selectedRowKeys.length > 0;
 
+  const { isLoading, isError, data: permissions, error } = useQuery<IBackendRes<IModelPaginate<IPermission>>, Error>({
+    queryKey: ['fetchPermission'],
+    queryFn: (): Promise<IBackendRes<IModelPaginate<IPermission>>> => callApiFetchPermissions(""),
+  })
+
+  if (isLoading) {
+    return <span>Loading...</span>
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>
+  }
   return (
     <Flex gap="middle" vertical>
       <Flex align="center" gap="middle">
@@ -72,6 +94,13 @@ const TableRole = (props: IProps) => {
         }
         onChange={onChange}
         loading={loading}
+      />
+
+      <RoleModalUpdate
+        isModalOpenUpdate={isModalOpenUpdate}
+        setIsModalOpenUpdate={setIsModalOpenUpdate}
+        permissions={permissions?.data?.result}
+        dataEdit={dataEdit}
       />
     </Flex>
   )
