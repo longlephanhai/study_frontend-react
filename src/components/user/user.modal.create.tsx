@@ -4,6 +4,7 @@ import type { GetProp, UploadFile, UploadProps } from 'antd';
 import { PlusOutlined } from "@ant-design/icons";
 import { callApiCreateUser, callApiUploadAvatar } from "../../services/api";
 import { message } from "antd";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
@@ -16,6 +17,8 @@ interface IProps {
 const { Option } = Select;
 
 const ModalCreateUser = (props: IProps) => {
+
+  const queryClient = useQueryClient()
 
   const [form] = Form.useForm();
 
@@ -85,11 +88,41 @@ const ModalCreateUser = (props: IProps) => {
     </Form.Item>
   );
 
+  // Mutations
+  const mutation = useMutation<IBackendRes<IUser>, Error, IUser>({
+    mutationFn: callApiCreateUser,
+    onSuccess: (response) => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ['fetchUser'] })
+      message.success(response.message)
+      setIsModalOpenCreateUser(false);
+      form.resetFields();
+      setFileList([]);
+      setPreviewImage('');
+      setAvatarUrl('');
+    },
+    onError: (error) => {
+      message.error(error.message)
+    }
+  })
+
   const onFinish = async (values: IUser) => {
     values.avatar = avatarUrl;
-    // console.log('Success:', values);
-    const response = await callApiCreateUser(values);
-    console.log("Create User: ", response);
+    mutation.mutate(values);
+    // if (mutation.isPending) {
+    //   message.loading({ content: 'Creating user...', key: 'createUser' });
+    // }
+    // if (mutation.isSuccess) {
+    //   message.success({ content: 'User created successfully!', key: 'createUser', duration: 2 });
+    //   setIsModalOpenCreateUser(false);
+    //   form.resetFields();
+    //   setFileList([]);
+    //   setPreviewImage('');
+    //   setAvatarUrl('');
+    // }
+    // if (mutation.isError) {
+    //   message.error({ content: 'Error creating user. Please try again!', key: 'createUser', duration: 2 });
+    // }
   }
   return (
     <Modal

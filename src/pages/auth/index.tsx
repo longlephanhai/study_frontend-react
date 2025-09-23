@@ -57,13 +57,13 @@ const LoginPage = () => {
       if (response.data) {
         localStorage.setItem('access_token', response.data.access_token);
         dispatch(setUserLoginInfo(response.data.user));
-        message.success('Đăng nhập tài khoản thành công!');
+        message.success('Login successful!');
         navigate('/');
       }
     },
     onError: (error) => {
       notification.error({
-        message: "Có lỗi xảy ra",
+        message: "Email or password incorrect!",
         description:
           error.message,
         duration: 5

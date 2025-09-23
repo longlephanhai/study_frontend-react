@@ -10,7 +10,7 @@ const UserPage = () => {
 
   const queryClient = useQueryClient();
 
-  const [query, setQuery] = useState(`current=1&pageSize=2`);
+  const [query, setQuery] = useState(`current=1&pageSize=5`);
 
   const { isLoading, isError, data, error } = useQuery<IBackendRes<IModelPaginate<IUser>>, Error>({
     queryKey: ['fetchUser', query],
