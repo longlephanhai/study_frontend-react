@@ -30,3 +30,7 @@ export const callApiCreateUser = async (data: IUser): Promise<IBackendRes<IUser>
 export const callApiGetAccount = async (): Promise<IBackendRes<IUser>> => {
   return await axios.get('/api/auth/account');
 }
+
+export const callApiFetchPermissions = async (query: string): Promise<IBackendRes<IModelPaginate<IPermission>>> => {
+  return await axios.get(`/api/permissions?${query}`);
+}

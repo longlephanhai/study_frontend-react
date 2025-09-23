@@ -9,10 +9,6 @@ import {
 import PermissionModal from "./permission.modal";
 import { useState } from "react";
 
-// import { useState } from "react";
-// import ModalCreateUser from "./user.modal.create";
-// import { useQuery } from "@tanstack/react-query";
-// import { callApiFetchRoles } from "../../services/api";
 
 const { Title } = Typography;
 
@@ -21,7 +17,7 @@ interface IProps {
   setQuery: (query: string) => void;
 }
 
-const PermissionHead = (props: IProps) => {
+const PermissionHead = () => {
 
   const [isModalOpenCreatePermission, setIsModalOpenCreatePermission] = useState(false)
 
