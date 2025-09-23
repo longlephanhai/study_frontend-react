@@ -12,6 +12,7 @@ import RolePage from "./pages/role";
 import { useAppDispatch } from "./hook/hooks";
 import { useEffect } from "react";
 import { fetchAccount } from "./redux/user/userSlice";
+import PermissionPage from "./pages/permission";
 
 function App() {
 
@@ -41,6 +42,10 @@ function App() {
         {
           path: "role",
           element: <RolePage />,
+        },
+        {
+          path: "permission",
+          element: <PermissionPage />,
         }
       ],
     },

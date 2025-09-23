@@ -3,12 +3,16 @@ import {
   PlusOutlined,
   SearchOutlined,
   DeleteOutlined,
+  ExportOutlined,
+  ImportOutlined,
 } from "@ant-design/icons";
-
+import PermissionModal from "./permission.modal";
 import { useState } from "react";
-import ModalCreateUser from "./user.modal.create";
-import { useQuery } from "@tanstack/react-query";
-import { callApiFetchRoles } from "../../services/api";
+
+// import { useState } from "react";
+// import ModalCreateUser from "./user.modal.create";
+// import { useQuery } from "@tanstack/react-query";
+// import { callApiFetchRoles } from "../../services/api";
 
 const { Title } = Typography;
 
@@ -17,29 +21,12 @@ interface IProps {
   setQuery: (query: string) => void;
 }
 
-const UserHead = (props: IProps) => {
+const PermissionHead = (props: IProps) => {
 
-  const { query, setQuery } = props;
+  const [isModalOpenCreatePermission, setIsModalOpenCreatePermission] = useState(false)
 
-  // const [search, setSearch] = useState("");
 
   const [form] = Form.useForm();
-
-
-  const [isModalOpenCreateUser, setIsModalOpenCreateUser] = useState(false);
-
-  const { isLoading, isError, data, error } = useQuery<IBackendRes<IModelPaginate<IRole>>, Error>({
-    queryKey: ['fetchRole', ""],
-    queryFn: (): Promise<IBackendRes<IModelPaginate<IRole>>> => callApiFetchRoles(""),
-  })
-
-
-  const onFinish = (values: string) => {
-    if (values) {
-      setQuery(`current=1&pageSize=5&fullName=/${values.search}/i&sort=-createdAt`);
-    }
-  }
-
 
   return (
     <Card
@@ -62,7 +49,7 @@ const UserHead = (props: IProps) => {
             gap: 8,
           }}
         >
-          👤 User Management
+          👤 Permission Management
         </Title>
 
         {/* Right actions */}
@@ -71,7 +58,7 @@ const UserHead = (props: IProps) => {
           <Form
             form={form}
             layout="inline"
-            onFinish={onFinish}
+            // onFinish={onFinish}
             style={{
               background: "#fafafa",
               padding: "8px 12px",
@@ -80,7 +67,7 @@ const UserHead = (props: IProps) => {
           >
             <Form.Item name="search" style={{ marginBottom: 0 }}>
               <Input
-                placeholder="Search user..."
+                placeholder="Search permission..."
                 allowClear
                 prefix={<SearchOutlined style={{ color: "#aaa" }} />}
                 style={{
@@ -103,14 +90,14 @@ const UserHead = (props: IProps) => {
           </Form>
 
           {/* Action Buttons */}
-          <Space size="middle" wrap>
+          {/* <Space size="middle" wrap>
             <Button
               type="primary"
               icon={<PlusOutlined />}
               style={{ borderRadius: 8 }}
-              onClick={() => setIsModalOpenCreateUser(true)}
+              onClick={() => setIsModalOpenCreatePermission(true)}
             >
-              Add User
+              Create Permission
             </Button>
 
             <Button
@@ -121,7 +108,14 @@ const UserHead = (props: IProps) => {
               Delete multiple
             </Button>
 
-            {/* <Button
+            <Button
+              icon={<ImportOutlined />}
+              type="primary"
+            >
+              Import Excel
+            </Button>
+
+            <Button
               icon={<ExportOutlined />}
               style={{
                 borderRadius: 8,
@@ -130,20 +124,18 @@ const UserHead = (props: IProps) => {
               }}
             >
               Export Excel
-            </Button> */}
-          </Space>
+            </Button>
+          </Space> */}
         </Flex>
       </Flex>
 
-      {/* Modal */}
-      <ModalCreateUser
-        isModalOpenCreateUser={isModalOpenCreateUser}
-        setIsModalOpenCreateUser={setIsModalOpenCreateUser}
-        dataRole={data?.data?.result || []}
+      <PermissionModal
+        isModalOpenCreatePermission={isModalOpenCreatePermission}
+        setIsModalOpenCreatePermission={setIsModalOpenCreatePermission}
       />
     </Card>
 
   );
 };
 
-export default UserHead;
+export default PermissionHead;

@@ -30,7 +30,6 @@ const TableRole = (props: IProps) => {
 
   const start = () => {
     setLoading(true);
-    // ajax request after empty completing
     setTimeout(() => {
       setSelectedRowKeys([]);
       setLoading(false);
