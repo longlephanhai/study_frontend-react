@@ -21,7 +21,6 @@ const UserHead = (props: IProps) => {
 
   const { query, setQuery } = props;
 
-  // const [search, setSearch] = useState("");
 
   const [form] = Form.useForm();
 

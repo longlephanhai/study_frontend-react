@@ -17,12 +17,19 @@ interface IProps {
   setQuery: (query: string) => void;
 }
 
-const PermissionHead = () => {
+const PermissionHead = (props: IProps) => {
+  const { query, setQuery } = props;
 
   const [isModalOpenCreatePermission, setIsModalOpenCreatePermission] = useState(false)
 
 
   const [form] = Form.useForm();
+
+  const onFinish = (values: string) => {
+    if (values) {
+      setQuery(`current=1&pageSize=5&name=/${values.search}/i&sort=-createdAt`);
+    }
+  }
 
   return (
     <Card
@@ -54,7 +61,7 @@ const PermissionHead = () => {
           <Form
             form={form}
             layout="inline"
-            // onFinish={onFinish}
+            onFinish={onFinish}
             style={{
               background: "#fafafa",
               padding: "8px 12px",

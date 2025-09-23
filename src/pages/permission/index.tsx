@@ -27,11 +27,14 @@ const PermissionPage = () => {
   //@ts-ignore
   const onChange = (pagination, filters, sorter, extra) => {
     setQuery(`current=${pagination.current}&pageSize=${pagination.pageSize}&sort=-createdAt`);
-    queryClient.invalidateQueries({ queryKey: ['fetchUser', query] });
+    queryClient.invalidateQueries({ queryKey: ['fetchPermission', query] });
   };
   return (
     <>
-      <PermissionHead />
+      <PermissionHead
+        query={query}
+        setQuery={setQuery}
+      />
       <Divider />
       {data &&
         <TablePermission
