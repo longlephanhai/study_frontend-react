@@ -9,34 +9,40 @@ import { Divider } from 'antd';
 const UserPage = () => {
 
   const queryClient = useQueryClient();
+  const [loading, setLoading] = useState(false);
 
-  const [query, setQuery] = useState(`current=1&pageSize=5`);
+  const [query, setQuery] = useState(`current=1&pageSize=5&sort=-createdAt`);
 
   const { isLoading, isError, data, error } = useQuery<IBackendRes<IModelPaginate<IUser>>, Error>({
     queryKey: ['fetchUser', query],
     queryFn: (): Promise<IBackendRes<IModelPaginate<IUser>>> => callApiFetchUsers(query),
   })
 
-  if (isLoading) {
-    return <span>Loading...</span>
-  }
+  // if (isLoading) {
+  //   return <span>Loading...</span>
+  // }
 
-  if (isError) {
-    return <span>Error: {error.message}</span>
-  }
+  // if (isError) {
+  //   return <span>Error: {error.message}</span>
+  // }
 
   //@ts-ignore
   const onChange = (pagination, filters, sorter, extra) => {
-    setQuery(`current=${pagination.current}&pageSize=${pagination.pageSize}`);
+    setQuery(`current=${pagination.current}&pageSize=${pagination.pageSize}&sort=-createdAt`);
     queryClient.invalidateQueries({ queryKey: ['fetchUser', query] });
   };
 
   return (
     <>
-      <UserHead />
+      <UserHead
+        query={query}
+        setQuery={setQuery}
+      />
       <Divider />
       {data &&
         <TableUser
+          loading={loading}
+          setLoading={setLoading}
           data={data}
           onChange={onChange}
         />

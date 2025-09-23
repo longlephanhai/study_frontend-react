@@ -7,13 +7,17 @@ type TableRowSelection<T extends object = object> = TableProps<T>['rowSelection'
 interface IProps {
   data: IBackendRes<IModelPaginate<IUser>>;
   onChange: (pagination: any, filters: any, sorter: any, extra: any) => void;
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
 }
 
 const TableUser = (props: IProps) => {
-  const { data, onChange } = props;
+  const { data, onChange, loading, setLoading } = props;
+
+
 
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const [loading, setLoading] = useState(false);
+
 
   const columns: TableColumnsType<IUser> = [
     { title: 'ID', dataIndex: '_id', key: '_id', render: text => <a>{text}</a> },

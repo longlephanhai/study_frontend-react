@@ -1,4 +1,4 @@
-import { Button, Card, Flex, Input, Space, Typography } from "antd";
+import { Button, Card, Flex, Form, Input, Space, Typography } from "antd";
 import {
   PlusOutlined,
   UploadOutlined,
@@ -12,21 +12,32 @@ import { callApiFetchRoles } from "../../services/api";
 
 const { Title } = Typography;
 
-const UserHead = () => {
-  const [isModalOpenCreateUser, setIsModalOpenCreateUser] = useState(false);
+interface IProps {
+  query: string;
+  setQuery: (query: string) => void;
+}
 
+const UserHead = (props: IProps) => {
+
+  const { query, setQuery } = props;
+
+  // const [search, setSearch] = useState("");
+
+  const [form] = Form.useForm();
+
+
+  const [isModalOpenCreateUser, setIsModalOpenCreateUser] = useState(false);
 
   const { isLoading, isError, data, error } = useQuery<IBackendRes<IModelPaginate<IRole>>, Error>({
     queryKey: ['fetchRole', ""],
     queryFn: (): Promise<IBackendRes<IModelPaginate<IRole>>> => callApiFetchRoles(""),
   })
 
-  if (isLoading) {
-    return <span>Loading...</span>
-  }
 
-  if (isError) {
-    return <span>Error: {error.message}</span>
+  const onFinish = (values: string) => {
+    if (values) {
+      setQuery(`current=1&pageSize=5&fullName=/${values.search}/i&sort=-createdAt`);
+    }
   }
 
 
@@ -34,45 +45,90 @@ const UserHead = () => {
     <Card
       style={{
         width: "100%",
-        borderRadius: 12,
+        borderRadius: 16,
+        background: "#fff",
       }}
-      bodyStyle={{ padding: 20 }}
+      bodyStyle={{ padding: 24 }}
     >
       <Flex justify="space-between" align="center" wrap="wrap" gap="large">
 
-        <Title level={4} style={{ margin: 0 }}>
+        {/* Title */}
+        <Title
+          level={4}
+          style={{
+            margin: 0,
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+          }}
+        >
           👤 User Management
         </Title>
 
+        {/* Right actions */}
         <Flex gap="middle" align="center" wrap="wrap">
-          <Input
-            placeholder="Search user..."
-            allowClear
-            prefix={<SearchOutlined style={{ color: "#aaa" }} />}
+          {/* Search Form */}
+          <Form
+            form={form}
+            layout="inline"
+            onFinish={onFinish}
             style={{
-              width: 260,
-              borderRadius: 8,
+              background: "#fafafa",
+              padding: "8px 12px",
+              borderRadius: 12,
             }}
-          />
+          >
+            <Form.Item name="search" style={{ marginBottom: 0 }}>
+              <Input
+                placeholder="Search user..."
+                allowClear
+                prefix={<SearchOutlined style={{ color: "#aaa" }} />}
+                style={{
+                  width: 260,
+                  borderRadius: 8,
+                  background: "#fff",
+                }}
+              />
+            </Form.Item>
 
-          <Space wrap>
+            <Form.Item style={{ marginBottom: 0 }}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                style={{ borderRadius: 8 }}
+              >
+                Search
+              </Button>
+            </Form.Item>
+          </Form>
+
+          {/* Action Buttons */}
+          <Space size="middle" wrap>
             <Button
               type="primary"
               icon={<PlusOutlined />}
-              style={{ borderRadius: 6 }}
+              style={{ borderRadius: 8 }}
               onClick={() => setIsModalOpenCreateUser(true)}
             >
               Add User
             </Button>
             <Button
               icon={<UploadOutlined />}
-              style={{ borderRadius: 6 }}
+              style={{
+                borderRadius: 8,
+                background: "#f6f6f6",
+                border: "1px solid #ddd",
+              }}
             >
               Upload Excel
             </Button>
             <Button
               icon={<ExportOutlined />}
-              style={{ borderRadius: 6 }}
+              style={{
+                borderRadius: 8,
+                background: "#f6f6f6",
+                border: "1px solid #ddd",
+              }}
             >
               Export Excel
             </Button>
@@ -80,12 +136,14 @@ const UserHead = () => {
         </Flex>
       </Flex>
 
+      {/* Modal */}
       <ModalCreateUser
         isModalOpenCreateUser={isModalOpenCreateUser}
         setIsModalOpenCreateUser={setIsModalOpenCreateUser}
         dataRole={data?.data?.result || []}
       />
     </Card>
+
   );
 };
 
