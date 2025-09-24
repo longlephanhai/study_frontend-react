@@ -34,3 +34,7 @@ export const callApiGetAccount = async (): Promise<IBackendRes<IUser>> => {
 export const callApiFetchPermissions = async (query: string): Promise<IBackendRes<IModelPaginate<IPermission>>> => {
   return await axios.get(`/api/permissions?${query}`);
 }
+
+export const callApiUpdateRole = async (id: string, data: { name: string; description: string; permissions: string[] }): Promise<IBackendRes<IRole>> => {
+  return await axios.patch(`/api/roles/${id}`, data);
+}

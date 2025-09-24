@@ -1,13 +1,18 @@
-import { Modal, Row, Col, Card, Checkbox, Typography, Input, Button, Space } from "antd";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  Modal,
+  Row,
+  Col,
+  Card,
+  Checkbox,
+  Typography,
+  Input,
+  Button,
+  Space,
+  notification,
+} from "antd";
 import { useEffect, useState } from "react";
-
-interface IPermission {
-  _id: string;
-  name: string;
-  apiPath: string;
-  method: string;
-  module: string;
-}
+import { callApiUpdateRole } from "../../services/api";
 
 interface IProps {
   isModalOpenUpdate: boolean;
@@ -16,34 +21,86 @@ interface IProps {
   dataEdit: IRole | null;
 }
 
-const RoleModalUpdate = (props: IProps) => {
-  const { isModalOpenUpdate, setIsModalOpenUpdate, permissions, dataEdit } = props;
-  console.log("dataEdit:", dataEdit);
-  useEffect(() => {
-    if (dataEdit) {
-      // Nếu dataEdit.permissions là mảng object => map sang _id
-      setSelected(dataEdit.permissions?.map((p: any) => p._id) || []);
-      setRoleName(dataEdit.name);
-      setDescription(dataEdit.description || "");
-    }
-  }, [dataEdit]);
-  const [selected, setSelected] = useState<string[]>([]);
-  const [roleName, setRoleName] = useState("");
-  const [description, setDescription] = useState("");
+const RoleModalUpdate = ({
+  isModalOpenUpdate,
+  setIsModalOpenUpdate,
+  permissions,
+  dataEdit,
+}: IProps) => {
   const { Text } = Typography;
 
-  const handleCreate = () => {
-    console.log("Role Name:", roleName);
-    console.log("Description:", description);
-    console.log("Selected Permission IDs:", selected);
-    setIsModalOpenUpdate(false);
-  };
+  // ✅ Lưu selected theo từng module
+  const [selectedByModule, setSelectedByModule] = useState<
+    Record<string, string[]>
+  >({});
+  const [roleName, setRoleName] = useState("");
+  const [description, setDescription] = useState("");
 
-  // 👉 Group permissions by module
+  // 👉 Group permissions theo module
   const grouped = permissions?.reduce((acc, item) => {
     (acc[item.module] ||= []).push(item);
     return acc;
   }, {} as Record<string, IPermission[]>);
+
+  // 👉 Prefill khi mở modal
+  useEffect(() => {
+    if (dataEdit && permissions) {
+      setRoleName(dataEdit.name);
+      setDescription(dataEdit.description || "");
+
+      // tách permission theo module
+      const ids =
+        dataEdit.permissions?.map((p: any) =>
+          typeof p === "string" ? p : p._id
+        ) || [];
+
+      const newSelected: Record<string, string[]> = {};
+      permissions.forEach((p) => {
+        if (ids.includes(p._id)) {
+          (newSelected[p.module] ||= []).push(p._id);
+        }
+      });
+
+      setSelectedByModule(newSelected);
+    }
+  }, [dataEdit, permissions]);
+
+  const queryClient = useQueryClient()
+
+  const mutation = useMutation<IBackendRes<IRole>, Error, { id: string; data: { name: string; description: string; permissions: string[] } }>({
+    mutationFn: ({ id, data }) => callApiUpdateRole(id, data),
+    onSuccess: (response) => {
+      if (response.data) {
+        notification.success({
+          message: "Update role successfully!",
+          description:
+            response.message,
+          duration: 5
+        });
+        queryClient.invalidateQueries({ queryKey: ['fetchPermission'] })
+        setIsModalOpenUpdate(false);
+      }
+    },
+    onError: (error) => {
+      notification.error({
+        message: "Update role failed!",
+        description:
+          error.message,
+        duration: 5
+      });
+    }
+  });
+
+  const handleUpdate = () => {
+    const allSelected = Object.values(selectedByModule).flat();
+    const dataUpdate = {
+      name: roleName,
+      description,
+      permissions: allSelected
+    }
+    mutation.mutate({ id: dataEdit?._id || '', data: dataUpdate })
+
+  };
 
   return (
     <Modal
@@ -91,14 +148,19 @@ const RoleModalUpdate = (props: IProps) => {
               >
                 <Checkbox.Group
                   style={{ display: "flex", flexDirection: "column", gap: 6 }}
-                  value={selected}
-                  onChange={(vals) => setSelected(vals as string[])}
+                  value={selectedByModule[module] || []}
+                  onChange={(vals) =>
+                    setSelectedByModule((prev) => ({
+                      ...prev,
+                      [module]: vals as string[],
+                    }))
+                  }
                 >
                   {items.map((p) => (
                     <Checkbox key={p._id} value={p._id}>
                       <div style={{ fontWeight: 500 }}>{p.name}</div>
                       <div style={{ fontSize: 12, color: "#64748b" }}>
-                        ({p.method}) {p.apiPath} {p._id}
+                        ({p.method}) {p.apiPath}
                       </div>
                     </Checkbox>
                   ))}
@@ -108,9 +170,9 @@ const RoleModalUpdate = (props: IProps) => {
           ))}
       </Row>
 
-      {/* ---- Create Button ---- */}
+      {/* ---- Update Button ---- */}
       <div style={{ textAlign: "right", marginTop: 24 }}>
-        <Button type="primary" size="large" onClick={handleCreate}>
+        <Button type="primary" size="large" onClick={handleUpdate}>
           Update
         </Button>
       </div>
