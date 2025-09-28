@@ -1,0 +1,150 @@
+import { InboxOutlined } from "@ant-design/icons";
+import { message, Modal, Table, Upload } from "antd"
+import { useState } from "react";
+import * as XLSX from 'xlsx';
+import { callApiCreateMultipleQuestions } from "../../../services/api";
+interface IProps {
+  isModalOpenImport: boolean;
+  setIsModalOpenImport: (isModalOpen: boolean) => void;
+  partId: string;
+}
+const { Dragger } = Upload;
+const ImportQuestion = (props: IProps) => {
+  const { isModalOpenImport, setIsModalOpenImport, partId } = props;
+  const [dataExcel, setDataExcel] = useState<IQuestion[]>([]);
+
+  // https://stackoverflow.com/questions/51514757/action-function-is-required-with-antd-upload-control-but-i-dont-need-it
+  const dummyRequest = ({
+    file,
+    onSuccess,
+  }: {
+    file: File;
+    onSuccess: (response: string) => void;
+  }) => {
+    setTimeout(() => {
+      onSuccess("ok");
+    }, 1000);
+  };
+
+  const propsUpload = {
+    name: 'file',
+    multiple: false,
+    maxCount: 1,
+    accept: ".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    // https://stackoverflow.com/questions/11832930/html-input-file-accept-attribute-file-type-csv
+
+    // action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+    customRequest: dummyRequest,
+    onChange(info: any) {
+      const { status } = info.file;
+      if (status !== 'uploading') {
+        console.log(info.file, info.fileList);
+      }
+      if (status === 'done') {
+        if (info.fileList && info.fileList.length > 0) {
+          const file = info.fileList[0].originFileObj;
+          const reader = new FileReader();
+          reader.readAsArrayBuffer(file);
+          reader.onload = function (e) {
+            const data = new Uint8Array(reader.result as ArrayBuffer);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const sheet = workbook.Sheets[workbook.SheetNames[0]];
+            // const json = XLSX.utils.sheet_to_json(sheet);
+            const json = XLSX.utils.sheet_to_json(sheet, {
+              header: ["numberQuestion", "imageUrl", "audioUrl", "options", "correctAnswer", "explanation", "category", "transcript", "questionContent"],
+              range: 1 //skip header row
+            });
+            if (json && json.length > 0) setDataExcel(json as IQuestion[]);
+          }
+        }
+        message.success(`${info.file.name} file uploaded successfully.`);
+      } else if (status === 'error') {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+    onDrop(e: React.DragEvent<HTMLDivElement>) {
+      console.log('Dropped files', e.dataTransfer.files);
+    },
+  };
+
+  const handleSubmit = async () => {
+    // const response = await callApiCreateMultipleQuestions(partId, dataExcel);
+    // console.log("response", response);
+    dataExcel.forEach((item: any) => {
+      item.options = item.options ? item.options.split("|") : [];
+    });
+    try {
+      const response = await callApiCreateMultipleQuestions(partId, dataExcel);
+      if (response.statusCode === 201) {
+        message.success("Import question successfully");
+        setIsModalOpenImport(false);
+        setDataExcel([]);
+      } else {
+        message.error(response.message || "Import question failed");
+        setIsModalOpenImport(false);
+        setDataExcel([]);
+      }
+    } catch (error) {
+      // @ts-ignore
+      message.error(error.message || "Import question failed");
+      setIsModalOpenImport(false);
+      setDataExcel([]);
+    }
+  }
+
+
+  return (
+    <Modal
+      title="Import data question"
+      width={"70vw"}
+      open={isModalOpenImport}
+      onOk={() => handleSubmit()}
+      onCancel={() => {
+        setIsModalOpenImport(false);
+        setDataExcel([]);
+      }}
+      okText="Import data"
+      okButtonProps={{
+        disabled: dataExcel.length < 1
+      }}
+      //do not close when click outside
+      maskClosable={false}
+    >
+      <Dragger
+        {...propsUpload}
+        showUploadList={dataExcel.length > 0}
+      >
+        <p className="ant-upload-drag-icon">
+          <InboxOutlined />
+        </p>
+        <p className="ant-upload-text">Click or drag file to this area to upload</p>
+        <p className="ant-upload-hint">
+          Support for a single upload. Only accept .csv, .xls, .xlsx . or
+          &nbsp;  <a onClick={e => e.stopPropagation()}
+            //  href={templateFile} 
+            download>Download Sample File</a>
+        </p>
+      </Dragger>
+      {/* header: ["numberQuestion", "imageUrl", "audioUrl", "options", "correctAnswer", "explanation", "category", "transcript"], */}
+      <div style={{ paddingTop: 20 }}>
+        <Table<IQuestion>
+          dataSource={dataExcel}
+          key={"_id"}
+          title={() => <span>Dữ liệu upload:</span>}
+          columns={[
+            { dataIndex: 'numberQuestion', key: 'numberQuestion', title: 'Number Question' },
+            { dataIndex: 'imageUrl', key: 'imageUrl', title: 'Image URL', render: url => url ? <img src={url} alt="img" style={{ maxWidth: 100 }} /> : null },
+            { dataIndex: 'audioUrl', key: 'audioUrl', title: 'Audio URL', render: url => url ? <audio controls src={url}></audio> : null },
+            { dataIndex: 'options', key: 'options', title: 'Options' },
+            { dataIndex: 'correctAnswer', key: 'correctAnswer', title: 'Correct Answer' },
+            { dataIndex: 'explanation', key: 'explanation', title: 'Explanation' },
+            { dataIndex: 'category', key: 'category', title: 'Category' },
+            { dataIndex: 'transcript', key: 'transcript', title: 'Transcript' },
+            { dataIndex: "questionContent", key: "questionContent", title: "Question Content" }
+          ]}
+        />
+      </div>
+    </Modal>
+  )
+}
+export default ImportQuestion

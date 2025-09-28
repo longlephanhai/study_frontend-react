@@ -1,3 +1,4 @@
+import { data } from "react-router-dom";
 import axios from "../config/interceptor"
 
 export const callApiLogin = async (data: { email: string, password: string }): Promise<IBackendRes<IAccount>> => {
@@ -41,4 +42,8 @@ export const callApiUpdateRole = async (id: string, data: { name: string; descri
 
 export const callApiFetchTests = async (query: string): Promise<IBackendRes<IModelPaginate<ITest>>> => {
   return await axios.get(`/api/tests?${query}`);
+}
+
+export const callApiCreateMultipleQuestions = async (partId: string, data: IQuestion[]): Promise<IBackendRes<IModelPaginate<IQuestion[]>>> => {
+  return await axios.post(`/api/parts/${partId}/questions/multiple`, data);
 }

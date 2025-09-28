@@ -1,6 +1,6 @@
 import { Divider } from "antd";
-import TestHead from "../../components/test/test.table";
-import TableTest from "../../components/test/test.head";
+import TestHead from "../../components/test/test.head";
+import TableTest from "../../components/test/test.table";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { callApiFetchTests } from "../../services/api";

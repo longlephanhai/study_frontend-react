@@ -103,5 +103,17 @@ declare global {
     description: string;
     questions: any[];
   }
+
+  interface IQuestion {
+    _id: string;
+    numberQuestion: number;
+    questionContent?: string;
+    options: string[];
+    correctAnswer: string;
+    imageUrl?: string;
+    audioUrl?: string;
+    explanation?: string;
+    category?: string;
+  }
 }
 
