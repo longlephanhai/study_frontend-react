@@ -38,3 +38,7 @@ export const callApiFetchPermissions = async (query: string): Promise<IBackendRe
 export const callApiUpdateRole = async (id: string, data: { name: string; description: string; permissions: string[] }): Promise<IBackendRes<IRole>> => {
   return await axios.patch(`/api/roles/${id}`, data);
 }
+
+export const callApiFetchTests = async (query: string): Promise<IBackendRes<IModelPaginate<ITest>>> => {
+  return await axios.get(`/api/tests?${query}`);
+}

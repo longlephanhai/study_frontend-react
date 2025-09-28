@@ -83,5 +83,25 @@ declare global {
     module: string;
   }
 
+  interface ITest {
+    _id: string;
+    title: string;
+    description: string;
+    durationSec: number;
+    isPublic: boolean;
+    totalQuestions: number;
+    parts: IPart[];
+    audioUrl: string;
+  }
+
+  interface IPart {
+    _id: string;
+    partNo: number;
+    name: string;
+    durationSec: number;
+    orderIndex: number;
+    description: string;
+    questions: any[];
+  }
 }
 

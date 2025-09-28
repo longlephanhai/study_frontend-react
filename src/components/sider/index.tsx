@@ -1,6 +1,7 @@
 import { MdDashboard } from "react-icons/md";
 import { FaUserAlt } from "react-icons/fa";
 import { FaUserLock } from "react-icons/fa6";
+import { MdAssignmentAdd } from "react-icons/md";
 import { Layout, Menu } from 'antd';
 import { FcAcceptDatabase } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
@@ -49,6 +50,12 @@ const SiderLayout = (props: IProps) => {
             icon: <FcAcceptDatabase />,
             label: 'Permissions',
             onClick: () => navigate('/permission')
+          },
+          {
+            key: 'test',
+            icon: <MdAssignmentAdd />,
+            label: 'Test',
+            onClick: () => navigate('/test')
           }
         ]}
       />

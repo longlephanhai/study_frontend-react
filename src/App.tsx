@@ -13,6 +13,7 @@ import { useAppDispatch } from "./hook/hooks";
 import { useEffect } from "react";
 import { fetchAccount } from "./redux/user/userSlice";
 import PermissionPage from "./pages/permission";
+import TestPage from "./pages/test";
 
 function App() {
 
@@ -46,6 +47,10 @@ function App() {
         {
           path: "permission",
           element: <PermissionPage />,
+        },
+        {
+          path: "test",
+          element: <TestPage />
         }
       ],
     },
