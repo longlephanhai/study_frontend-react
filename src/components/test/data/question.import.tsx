@@ -1,5 +1,5 @@
 import { InboxOutlined } from "@ant-design/icons";
-import { message, Modal, Table, Upload } from "antd"
+import { message, Modal, Table, Typography, Upload } from "antd"
 import { useState } from "react";
 import * as XLSX from 'xlsx';
 import { callApiCreateMultipleQuestions } from "../../../services/api";
@@ -12,6 +12,9 @@ const { Dragger } = Upload;
 const ImportQuestion = (props: IProps) => {
   const { isModalOpenImport, setIsModalOpenImport, partId } = props;
   const [dataExcel, setDataExcel] = useState<IQuestion[]>([]);
+
+  const [rows, setRows] = useState(3);
+  const [expanded, setExpanded] = useState(false);
 
   // https://stackoverflow.com/questions/51514757/action-function-is-required-with-antd-upload-control-but-i-dont-need-it
   const dummyRequest = ({
@@ -96,7 +99,7 @@ const ImportQuestion = (props: IProps) => {
   return (
     <Modal
       title="Import data question"
-      width={"70vw"}
+      width={"90vw"}
       open={isModalOpenImport}
       onOk={() => handleSubmit()}
       onCancel={() => {
@@ -137,10 +140,58 @@ const ImportQuestion = (props: IProps) => {
             { dataIndex: 'audioUrl', key: 'audioUrl', title: 'Audio URL', render: url => url ? <audio controls src={url}></audio> : null },
             { dataIndex: 'options', key: 'options', title: 'Options' },
             { dataIndex: 'correctAnswer', key: 'correctAnswer', title: 'Correct Answer' },
-            { dataIndex: 'explanation', key: 'explanation', title: 'Explanation' },
+            {
+              dataIndex: 'explanation', key: 'explanation', title: 'Explanation', render: text => {
+                return (
+                  <Typography.Paragraph
+                    ellipsis={{
+                      rows,
+                      expandable: 'collapsible',
+                      expanded,
+                      onExpand: (_, info) => setExpanded(info.expanded),
+                    }}
+                    copyable
+                  >
+                    {text}
+                  </Typography.Paragraph>
+                )
+              }
+            },
             { dataIndex: 'category', key: 'category', title: 'Category' },
-            { dataIndex: 'transcript', key: 'transcript', title: 'Transcript' },
-            { dataIndex: "questionContent", key: "questionContent", title: "Question Content" }
+            {
+              dataIndex: 'transcript', key: 'transcript', title: 'Transcript', render: text => {
+                return (
+                  <Typography.Paragraph
+                    ellipsis={{
+                      rows,
+                      expandable: 'collapsible',
+                      expanded,
+                      onExpand: (_, info) => setExpanded(info.expanded),
+                    }}
+                    copyable
+                  >
+                    {text}
+                  </Typography.Paragraph>
+                )
+              }
+            },
+            {
+              dataIndex: "questionContent", key: "questionContent", title: "Question Content", render: text => {
+                return (
+                  <Typography.Paragraph
+                    ellipsis={{
+                      rows,
+                      expandable: 'collapsible',
+                      expanded,
+                      onExpand: (_, info) => setExpanded(info.expanded),
+                    }}
+                    copyable
+                  >
+                    {text}
+                  </Typography.Paragraph>
+                )
+              }
+            }
           ]}
         />
       </div>
