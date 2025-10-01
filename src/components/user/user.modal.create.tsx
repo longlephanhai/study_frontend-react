@@ -72,10 +72,6 @@ const ModalCreateUser = (props: IProps) => {
   const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) =>
     setFileList(newFileList);
 
-  // const handleOk = () => {
-  //   setIsModalOpenCreateUser(false);
-  // };
-
   const handleCancel = () => {
     setIsModalOpenCreateUser(false);
   };
@@ -251,7 +247,6 @@ const ModalCreateUser = (props: IProps) => {
             </Form.Item>
           </Col>
         </Row>
-
       </Form>
     </Modal>
   )

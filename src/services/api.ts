@@ -47,3 +47,7 @@ export const callApiFetchTests = async (query: string): Promise<IBackendRes<IMod
 export const callApiCreateMultipleQuestions = async (partId: string, data: IQuestion[]): Promise<IBackendRes<IModelPaginate<IQuestion[]>>> => {
   return await axios.post(`/api/parts/${partId}/questions/multiple`, data);
 }
+
+export const callApiCreateTest = async (data: ITest): Promise<IBackendRes<ITest>> => {
+  return await axios.post('/api/tests', data);
+}

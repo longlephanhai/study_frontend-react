@@ -141,7 +141,6 @@ const UserHead = (props: IProps) => {
         dataRole={data?.data?.result || []}
       />
     </Card>
-
   );
 };
 

@@ -12,7 +12,7 @@ const TestPage = () => {
   const [query, setQuery] = useState(`current=1&pageSize=5&sort=-createdAt`);
 
   const { isLoading, isError, data, error } = useQuery<IBackendRes<IModelPaginate<ITest>>, Error>({
-    queryKey: ['fetchUser', query],
+    queryKey: ['fetchTest', query],
     queryFn: (): Promise<IBackendRes<IModelPaginate<ITest>>> => callApiFetchTests(query),
   })
 
