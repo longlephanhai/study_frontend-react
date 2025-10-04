@@ -114,6 +114,8 @@ declare global {
     audioUrl?: string;
     explanation?: string;
     category?: string;
+    transcript?: string;
+    reading?: string[];
   }
 }
 

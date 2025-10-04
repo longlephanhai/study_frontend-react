@@ -1,4 +1,3 @@
-import { data } from "react-router-dom";
 import axios from "../config/interceptor"
 
 export const callApiLogin = async (data: { email: string, password: string }): Promise<IBackendRes<IAccount>> => {

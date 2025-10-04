@@ -54,7 +54,7 @@ const ImportQuestion = (props: IProps) => {
             const sheet = workbook.Sheets[workbook.SheetNames[0]];
             // const json = XLSX.utils.sheet_to_json(sheet);
             const json = XLSX.utils.sheet_to_json(sheet, {
-              header: ["numberQuestion", "imageUrl", "audioUrl", "options", "correctAnswer", "explanation", "category", "transcript", "questionContent"],
+              header: ["numberQuestion", "imageUrl", "audioUrl", "options", "correctAnswer", "explanation", "category", "transcript", "questionContent", "reading"],
               range: 1 //skip header row
             });
             if (json && json.length > 0) setDataExcel(json as IQuestion[]);
@@ -75,6 +75,11 @@ const ImportQuestion = (props: IProps) => {
     // console.log("response", response);
     dataExcel.forEach((item: any) => {
       item.options = item.options ? item.options.split("|") : [];
+      if (item.reading && item.reading.length > 1) {
+        item.reading = item.reading.split("|");
+      } else if (item.reading && item.reading.length === 1) {
+        item.reading = [item.reading];
+      }
     });
     try {
       const response = await callApiCreateMultipleQuestions(partId, dataExcel);
@@ -177,6 +182,23 @@ const ImportQuestion = (props: IProps) => {
             },
             {
               dataIndex: "questionContent", key: "questionContent", title: "Question Content", render: text => {
+                return (
+                  <Typography.Paragraph
+                    ellipsis={{
+                      rows,
+                      expandable: 'collapsible',
+                      expanded,
+                      onExpand: (_, info) => setExpanded(info.expanded),
+                    }}
+                    copyable
+                  >
+                    {text}
+                  </Typography.Paragraph>
+                )
+              }
+            },
+            {
+              dataIndex: "reading", key: "reading", title: "Reading", render: text => {
                 return (
                   <Typography.Paragraph
                     ellipsis={{

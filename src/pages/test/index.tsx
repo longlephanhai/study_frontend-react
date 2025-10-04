@@ -9,7 +9,7 @@ const TestPage = () => {
   const queryClient = useQueryClient();
   const [loading, setLoading] = useState(false);
 
-  const [query, setQuery] = useState(`current=1&pageSize=5&sort=-createdAt`);
+  const [query, setQuery] = useState(`current=1&pageSize=5`);
 
   const { isLoading, isError, data, error } = useQuery<IBackendRes<IModelPaginate<ITest>>, Error>({
     queryKey: ['fetchTest', query],
