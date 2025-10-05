@@ -4,6 +4,7 @@ import { FaUserLock } from "react-icons/fa6";
 import { MdAssignmentAdd } from "react-icons/md";
 import { Layout, Menu } from 'antd';
 import { FcAcceptDatabase } from "react-icons/fc";
+import { TbWriting } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 const { Sider } = Layout;
 
@@ -56,6 +57,12 @@ const SiderLayout = (props: IProps) => {
             icon: <MdAssignmentAdd />,
             label: 'Test',
             onClick: () => navigate('/test')
+          },
+          {
+            key: 'writing',
+            icon: <TbWriting />,
+            label: 'Writing',
+            onClick: () => navigate('/writing')
           }
         ]}
       />

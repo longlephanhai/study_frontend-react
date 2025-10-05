@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import { fetchAccount } from "./redux/user/userSlice";
 import PermissionPage from "./pages/permission";
 import TestPage from "./pages/test";
+import WritingPage from "./pages/writing";
 
 function App() {
 
@@ -51,6 +52,10 @@ function App() {
         {
           path: "test",
           element: <TestPage />
+        },
+        {
+          path: "writing",
+          element: <WritingPage />
         }
       ],
     },

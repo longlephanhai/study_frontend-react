@@ -117,5 +117,15 @@ declare global {
     transcript?: string;
     reading?: string[];
   }
+
+  interface IWriting {
+    topic: string;
+    title: string;
+    description: string;
+    minWords: number;
+    maxWords: number;
+    level: string;
+    suggestion?: string;
+  }
 }
 
