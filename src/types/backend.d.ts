@@ -119,6 +119,7 @@ declare global {
   }
 
   interface IWriting {
+    _id: string;
     topic: string;
     title: string;
     description: string;

@@ -54,3 +54,7 @@ export const callApiCreateTest = async (data: ITest): Promise<IBackendRes<ITest>
 export const callApiCreateMultipleWritings = async (data: IWriting[]): Promise<IBackendRes<IModelPaginate<IWriting[]>>> => {
   return await axios.post('/api/writing/multiple', data);
 }
+
+export const callApiFetchWritings = async (query: string): Promise<IBackendRes<IModelPaginate<IWriting>>> => {
+  return await axios.get(`/api/writing?${query}`);
+}
