@@ -101,7 +101,7 @@ declare global {
     durationSec: number;
     orderIndex: number;
     description: string;
-    questions: any[];
+    questions: IQuestion[];
   }
 
   interface IQuestion {
