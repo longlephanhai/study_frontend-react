@@ -128,5 +128,22 @@ declare global {
     level: string;
     suggestion?: string;
   }
+
+  interface ITopicVocabulary {
+    _id: string;
+    topic: string;
+    description: string;
+    vocabularies?: IVocabulary[];
+  }
+
+  interface IVocabulary {
+    _id: string;
+    vocab: string;
+    meaning: string;
+    example: string;
+    level: string;
+    pronounce: string;
+    img: string;
+  }
 }
 

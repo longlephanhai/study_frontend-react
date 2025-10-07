@@ -15,6 +15,7 @@ import { fetchAccount } from "./redux/user/userSlice";
 import PermissionPage from "./pages/permission";
 import TestPage from "./pages/test";
 import WritingPage from "./pages/writing";
+import VocabularyPage from "./pages/vocabulary";
 
 function App() {
 
@@ -56,6 +57,10 @@ function App() {
         {
           path: "writing",
           element: <WritingPage />
+        },
+        {
+          path: "vocabulary",
+          element: <VocabularyPage />
         }
       ],
     },

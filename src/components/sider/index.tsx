@@ -5,6 +5,7 @@ import { MdAssignmentAdd } from "react-icons/md";
 import { Layout, Menu } from 'antd';
 import { FcAcceptDatabase } from "react-icons/fc";
 import { TbWriting } from "react-icons/tb";
+import { TbVocabulary } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 const { Sider } = Layout;
 
@@ -63,6 +64,12 @@ const SiderLayout = (props: IProps) => {
             icon: <TbWriting />,
             label: 'Writing',
             onClick: () => navigate('/writing')
+          },
+          {
+            key: 'vocabulary',
+            icon: <TbVocabulary />,
+            label: 'Vocabulary',
+            onClick: () => navigate('/vocabulary')
           }
         ]}
       />
