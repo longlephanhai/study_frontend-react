@@ -145,5 +145,11 @@ declare global {
     pronounce: string;
     img: string;
   }
+
+  interface ITopicsSpeaking {
+    _id: string;
+    topic: string;
+    description: string;
+  }
 }
 

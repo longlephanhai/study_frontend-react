@@ -7,6 +7,7 @@ import { FcAcceptDatabase } from "react-icons/fc";
 import { TbWriting } from "react-icons/tb";
 import { TbVocabulary } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
+import { FaTeamspeak } from "react-icons/fa";
 const { Sider } = Layout;
 
 interface IProps {
@@ -70,6 +71,12 @@ const SiderLayout = (props: IProps) => {
             icon: <TbVocabulary />,
             label: 'Vocabulary',
             onClick: () => navigate('/vocabulary')
+          },
+          {
+            key: 'speaking',
+            icon: <FaTeamspeak />,
+            label: 'Speaking',
+            onClick: () => navigate('/speaking')
           }
         ]}
       />

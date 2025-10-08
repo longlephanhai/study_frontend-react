@@ -62,3 +62,7 @@ export const callApiFetchWritings = async (query: string): Promise<IBackendRes<I
 export const callApiCreateMultipleTopicsVocabularies = async (data: ITopicVocabulary[]): Promise<IBackendRes<ITopicVocabulary[]>> => {
   return await axios.post('/api/topics-vocabularies/multiple', data);
 }
+
+export const callApiCreateMultipleTopicsSpeaking = async (data: ITopicsSpeaking[]): Promise<IBackendRes<ITopicsSpeaking[]>> => {
+  return await axios.post('/api/topics-speaking/multiple', data);
+}

@@ -5,11 +5,12 @@ import {
   ImportOutlined,
 } from "@ant-design/icons";
 import { useState } from "react";
-import ImportTopicsVocabulary from "./data/topics-vocabulary.import";
+import ImportTopicsSpeaking from "./data/speaking.import";
+// import ImportTopicsVocabulary from "./data/topics-vocabulary.import";
 
 const { Title } = Typography;
 
-const VocabularyHead = () => {
+const SpeakingHead = () => {
 
   const [isModalOpenImport, setIsModalOpenImport] = useState(false);
 
@@ -34,7 +35,7 @@ const VocabularyHead = () => {
             gap: 8,
           }}
         >
-          👤 Vocabulary Management
+          👤 Speaking Management
         </Title>
 
         {/* Right actions */}
@@ -52,7 +53,7 @@ const VocabularyHead = () => {
           >
             <Form.Item name="search" style={{ marginBottom: 0 }}>
               <Input
-                placeholder="Search topic vocabulary..."
+                placeholder="Search topic speaking..."
                 allowClear
                 prefix={<SearchOutlined style={{ color: "#aaa" }} />}
                 style={{
@@ -99,7 +100,7 @@ const VocabularyHead = () => {
         </Flex>
       </Flex>
 
-      <ImportTopicsVocabulary
+      <ImportTopicsSpeaking
         isModalOpenImport={isModalOpenImport}
         setIsModalOpenImport={setIsModalOpenImport}
       />
@@ -107,4 +108,4 @@ const VocabularyHead = () => {
   )
 }
 
-export default VocabularyHead;
+export default SpeakingHead;
