@@ -63,6 +63,14 @@ export const callApiCreateMultipleTopicsVocabularies = async (data: ITopicVocabu
   return await axios.post('/api/topics-vocabularies/multiple', data);
 }
 
+export const callApiFetchTopicsVocabularies = async (query: string): Promise<IBackendRes<IModelPaginate<ITopicVocabulary>>> => {
+  return await axios.get(`/api/topics-vocabularies?${query}`);
+}
+
 export const callApiCreateMultipleTopicsSpeaking = async (data: ITopicsSpeaking[]): Promise<IBackendRes<ITopicsSpeaking[]>> => {
   return await axios.post('/api/topics-speaking/multiple', data);
+}
+
+export const callApiCreateMultipleVocabularies = async (topicsId: string, data: IVocabulary[]): Promise<IBackendRes<IVocabulary[]>> => {
+  return await axios.post(`/api/topics-vocabularies/${topicsId}/vocabularies/multiple`, data);
 }
