@@ -27,7 +27,7 @@ const TestPage = () => {
   //@ts-ignore
   const onChange = (pagination, filters, sorter, extra) => {
     setQuery(`current=${pagination.current}&pageSize=${pagination.pageSize}&sort=-createdAt`);
-    queryClient.invalidateQueries({ queryKey: ['fetchUser', query] });
+    queryClient.invalidateQueries({ queryKey: ['fetchTest', query] });
   };
   return (
     <>
