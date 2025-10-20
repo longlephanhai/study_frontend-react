@@ -1,18 +1,17 @@
 import { InboxOutlined } from "@ant-design/icons";
-import { message, Modal, Table, Typography, Upload } from "antd"
+import { message, Modal, Table, Upload } from "antd"
 import { useState } from "react";
 import * as XLSX from 'xlsx';
-import { callApiCreateMultipleWritings } from "../../../services/api";
+import { callApiCreateMultipleGrammars } from "../../../services/api";
 interface IProps {
   isModalOpenImport: boolean;
   setIsModalOpenImport: (isModalOpen: boolean) => void;
 }
 const { Dragger } = Upload;
-const ImportWriting = (props: IProps) => {
-
+const ImportTopicsGrammar = (props: IProps) => {
   const { isModalOpenImport, setIsModalOpenImport } = props;
 
-  const [dataExcel, setDataExcel] = useState<IWriting[]>([]);
+  const [dataExcel, setDataExcel] = useState<IGrammar[]>([]);
 
   // const [rows, setRows] = useState(3);
   // const [expanded, setExpanded] = useState(false);
@@ -55,10 +54,10 @@ const ImportWriting = (props: IProps) => {
             const sheet = workbook.Sheets[workbook.SheetNames[0]];
             // const json = XLSX.utils.sheet_to_json(sheet);
             const json = XLSX.utils.sheet_to_json(sheet, {
-              header: ["topic", "title", "description", "minWords", "maxWords", "level", "suggestion"],
+              header: ["title", "content"],
               range: 1 //skip header row
             });
-            if (json && json.length > 0) setDataExcel(json as IWriting[]);
+            if (json && json.length > 0) setDataExcel(json as IGrammar[]);
           }
         }
         message.success(`${info.file.name} file uploaded successfully.`);
@@ -73,14 +72,13 @@ const ImportWriting = (props: IProps) => {
 
   const handleSubmit = async () => {
     try {
-      const response = await callApiCreateMultipleWritings(dataExcel);
+      const response = await callApiCreateMultipleGrammars(dataExcel);
       if (response.statusCode === 201) {
-        message.success("Import writing successfully");
+        message.success("Import grammar successfully");
         setIsModalOpenImport(false);
         setDataExcel([]);
-        
       } else {
-        message.error(response.message || "Import writing failed");
+        message.error(response.message || "Import grammar failed");
         setIsModalOpenImport(false);
         setDataExcel([]);
       }
@@ -124,23 +122,17 @@ const ImportWriting = (props: IProps) => {
       </Dragger>
 
       <div style={{ paddingTop: 20 }}>
-        <Table<IWriting>
+        <Table<IGrammar>
           dataSource={dataExcel}
           key={"_id"}
           title={() => <span>Dữ liệu upload:</span>}
           columns={[
-            { dataIndex: 'topic', key: 'topic', title: 'Topic' },
             { dataIndex: 'title', key: 'title', title: 'Title' },
-            { dataIndex: 'description', key: 'description', title: 'Description' },
-            { dataIndex: 'minWords', key: 'minWords', title: 'Min Words' },
-            { dataIndex: 'maxWords', key: 'maxWords', title: 'Max Words' },
-            { dataIndex: 'level', key: 'level', title: 'Level' },
-            { dataIndex: 'suggestion', key: 'suggestion', title: 'Suggestion' },
+            { dataIndex: 'content', key: 'content', title: 'Content' },
           ]}
         />
       </div>
     </Modal>
   )
 }
-
-export default ImportWriting;
+export default ImportTopicsGrammar

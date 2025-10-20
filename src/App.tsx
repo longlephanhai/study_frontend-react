@@ -17,6 +17,7 @@ import TestPage from "./pages/test";
 import WritingPage from "./pages/writing";
 import VocabularyPage from "./pages/vocabulary";
 import SpeakingPage from "./pages/speaking";
+import GrammarPage from "./pages/grammar";
 
 function App() {
 
@@ -66,6 +67,10 @@ function App() {
         {
           path: "speaking",
           element: <SpeakingPage />
+        },
+        {
+          path: "grammar",
+          element: <GrammarPage />
         }
       ],
     },

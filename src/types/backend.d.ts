@@ -151,5 +151,11 @@ declare global {
     topic: string;
     description: string;
   }
+
+  interface IGrammar {
+    _id: string;
+    title: string;
+    content: string;
+  }
 }
 

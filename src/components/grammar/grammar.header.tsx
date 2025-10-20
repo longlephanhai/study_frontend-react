@@ -5,16 +5,12 @@ import {
   ImportOutlined,
 } from "@ant-design/icons";
 import { useState } from "react";
-import ImportTopicsSpeaking from "./data/speaking.import";
-
+import ImportTopicsGrammar from "./data/grammar.import";
 
 const { Title } = Typography;
 
-const SpeakingHead = () => {
-
+const GrammarHeader = () => {
   const [isModalOpenImport, setIsModalOpenImport] = useState(false);
-
-
   return (
     <Card
       style={{
@@ -35,7 +31,7 @@ const SpeakingHead = () => {
             gap: 8,
           }}
         >
-          👤 Speaking Management
+          👤 Grammar Management
         </Title>
 
         {/* Right actions */}
@@ -53,7 +49,7 @@ const SpeakingHead = () => {
           >
             <Form.Item name="search" style={{ marginBottom: 0 }}>
               <Input
-                placeholder="Search topic speaking..."
+                placeholder="Search topic grammar..."
                 allowClear
                 prefix={<SearchOutlined style={{ color: "#aaa" }} />}
                 style={{
@@ -82,7 +78,7 @@ const SpeakingHead = () => {
               icon={<PlusOutlined />}
               style={{ borderRadius: 8 }}
             >
-              Add Topic
+              Add Grammar
             </Button>
 
             <Button
@@ -100,12 +96,11 @@ const SpeakingHead = () => {
         </Flex>
       </Flex>
 
-      <ImportTopicsSpeaking
+      <ImportTopicsGrammar
         isModalOpenImport={isModalOpenImport}
         setIsModalOpenImport={setIsModalOpenImport}
       />
     </Card>
   )
 }
-
-export default SpeakingHead;
+export default GrammarHeader;
