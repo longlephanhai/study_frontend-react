@@ -78,3 +78,7 @@ export const callApiCreateMultipleVocabularies = async (topicsId: string, data: 
 export const callApiCreateMultipleGrammars = async (data: IGrammar[]): Promise<IBackendRes<IGrammar[]>> => {
   return await axios.post('/api/grammars/multiple', data);
 }
+
+export const callApiCreateMultiplePartOne = async (data: IPartOne[]): Promise<IBackendRes<IPartOne[]>> => {
+  return await axios.post('/api/part1/multiple', data);
+}

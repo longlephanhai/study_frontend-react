@@ -157,5 +157,16 @@ declare global {
     title: string;
     content: string;
   }
+
+  interface IPartOne {
+    _id: string;
+    imageUrl: string;
+    audioUrl: string;
+    options: string[];
+    correctAnswer: string;
+    explanation: string;
+    category: string;
+    transcript: string;
+  }
 }
 

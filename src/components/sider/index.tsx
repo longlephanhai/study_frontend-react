@@ -9,6 +9,7 @@ import { TbVocabulary } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 import { FaTeamspeak } from "react-icons/fa";
 import { TbTextGrammar } from "react-icons/tb";
+import { RiNumber1 } from "react-icons/ri";
 const { Sider } = Layout;
 
 interface IProps {
@@ -84,6 +85,12 @@ const SiderLayout = (props: IProps) => {
             icon: <TbTextGrammar />,
             label: 'Grammar',
             onClick: () => navigate('/grammar')
+          },
+          {
+            key: 'part1',
+            icon: <RiNumber1 />,
+            label: 'Part 1',
+            onClick: () => navigate('/part1')
           }
         ]}
       />
