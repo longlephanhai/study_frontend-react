@@ -82,3 +82,7 @@ export const callApiCreateMultipleGrammars = async (data: IGrammar[]): Promise<I
 export const callApiCreateMultiplePartOne = async (data: IPartOne[]): Promise<IBackendRes<IPartOne[]>> => {
   return await axios.post('/api/part1/multiple', data);
 }
+
+export const callApiCreateMultiplePartTwo = async (data: IPartTwo[]): Promise<IBackendRes<IPartTwo[]>> => {
+  return await axios.post('/api/part2/multiple', data);
+}

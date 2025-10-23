@@ -168,5 +168,15 @@ declare global {
     category: string;
     transcript: string;
   }
+
+  interface IPartTwo {
+    _id: string;
+    audioUrl: string;
+    options: string[];
+    correctAnswer: string;
+    explanation: string;
+    category: string;
+    transcript: string;
+  }
 }
 

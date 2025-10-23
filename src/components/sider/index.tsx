@@ -9,7 +9,7 @@ import { TbVocabulary } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 import { FaTeamspeak } from "react-icons/fa";
 import { TbTextGrammar } from "react-icons/tb";
-import { RiNumber1 } from "react-icons/ri";
+import { RiNumber1, RiNumber2 } from "react-icons/ri";
 const { Sider } = Layout;
 
 interface IProps {
@@ -91,6 +91,12 @@ const SiderLayout = (props: IProps) => {
             icon: <RiNumber1 />,
             label: 'Part 1',
             onClick: () => navigate('/part1')
+          },
+          {
+            key: 'part2',
+            icon: <RiNumber2 />,
+            label: 'Part 2',
+            onClick: () => navigate('/part2')
           }
         ]}
       />
