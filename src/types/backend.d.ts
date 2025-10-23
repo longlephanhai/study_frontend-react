@@ -178,5 +178,16 @@ declare global {
     category: string;
     transcript: string;
   }
+
+  interface IPartThree {
+    imageUrl: string;
+    audioUrl: string;
+    options: string[];
+    correctAnswer: string;
+    explanation: string;
+    category: string;
+    transcript: string;
+    questionContent: string;
+  }
 }
 

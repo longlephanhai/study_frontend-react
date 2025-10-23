@@ -86,3 +86,8 @@ export const callApiCreateMultiplePartOne = async (data: IPartOne[]): Promise<IB
 export const callApiCreateMultiplePartTwo = async (data: IPartTwo[]): Promise<IBackendRes<IPartTwo[]>> => {
   return await axios.post('/api/part2/multiple', data);
 }
+
+export const callApiCreateMultiplePartThree = async (data: IPartThree[]): Promise<IBackendRes<IPartThree[]>> => {
+  return await axios.post('/api/part3/multiple', data);
+}
+

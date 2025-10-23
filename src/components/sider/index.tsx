@@ -9,7 +9,8 @@ import { TbVocabulary } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 import { FaTeamspeak } from "react-icons/fa";
 import { TbTextGrammar } from "react-icons/tb";
-import { RiNumber1, RiNumber2 } from "react-icons/ri";
+import { RiNumber1, RiNumber2, RiNumber3 } from "react-icons/ri";
+import { FcDepartment } from "react-icons/fc";
 const { Sider } = Layout;
 
 interface IProps {
@@ -87,17 +88,30 @@ const SiderLayout = (props: IProps) => {
             onClick: () => navigate('/grammar')
           },
           {
-            key: 'part1',
-            icon: <RiNumber1 />,
-            label: 'Part 1',
-            onClick: () => navigate('/part1')
+            key: 'parts',
+            icon: <FcDepartment />,
+            label: 'Parts',
+            children: [
+              {
+                key: 'part1',
+                icon: <RiNumber1 />,
+                label: 'Part 1',
+                onClick: () => navigate('/part1')
+              },
+              {
+                key: 'part2',
+                icon: <RiNumber2 />,
+                label: 'Part 2',
+                onClick: () => navigate('/part2')
+              },
+              {
+                key: 'part3',
+                icon: <RiNumber3 />,
+                label: 'Part 3',
+                onClick: () => navigate('/part3')
+              },
+            ]
           },
-          {
-            key: 'part2',
-            icon: <RiNumber2 />,
-            label: 'Part 2',
-            onClick: () => navigate('/part2')
-          }
         ]}
       />
     </Sider>

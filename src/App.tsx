@@ -20,6 +20,7 @@ import SpeakingPage from "./pages/speaking";
 import GrammarPage from "./pages/grammar";
 import PartOnePage from "./pages/part1";
 import PartTwoPage from "./pages/part2";
+import PartThreePage from "./pages/part3";
 
 function App() {
 
@@ -81,6 +82,10 @@ function App() {
         {
           path: "part2",
           element: <PartTwoPage />
+        },
+        {
+          path: "part3",
+          element: <PartThreePage />
         }
       ],
     },
