@@ -21,6 +21,7 @@ import GrammarPage from "./pages/grammar";
 import PartOnePage from "./pages/part1";
 import PartTwoPage from "./pages/part2";
 import PartThreePage from "./pages/part3";
+import PartFourPage from "./pages/part4";
 
 function App() {
 
@@ -86,6 +87,10 @@ function App() {
         {
           path: "part3",
           element: <PartThreePage />
+        },
+        {
+          path: "part4",
+          element: <PartFourPage />
         }
       ],
     },
