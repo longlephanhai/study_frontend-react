@@ -219,5 +219,16 @@ declare global {
     transcript: string;
     questionContent: string;
   }
+
+  interface IPartSeven {
+    _id: string;
+    options: string[];
+    correctAnswer: string;
+    explanation: string;
+    category: string;
+    transcript: string;
+    questionContent: string;
+    reading: string;
+  }
 }
 
