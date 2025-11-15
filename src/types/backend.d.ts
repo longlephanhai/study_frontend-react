@@ -200,5 +200,14 @@ declare global {
     transcript: string;
     questionContent: string;
   }
+
+  interface IPartFive {
+    _id: string;
+    options: string[];
+    correctAnswer: string;
+    explanation: string;
+    category: string;
+    questionContent: string;
+  }
 }
 
