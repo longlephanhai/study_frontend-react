@@ -209,5 +209,15 @@ declare global {
     category: string;
     questionContent: string;
   }
+
+  interface IPartSix {
+    _id: string;
+    options: string[];
+    correctAnswer: string;
+    explanation: string;
+    category: string;
+    transcript: string;
+    questionContent: string;
+  }
 }
 

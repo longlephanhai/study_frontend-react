@@ -23,6 +23,7 @@ import PartTwoPage from "./pages/part2";
 import PartThreePage from "./pages/part3";
 import PartFourPage from "./pages/part4";
 import PartFivePage from "./pages/part5";
+import PartSixPage from "./pages/part6/indx";
 
 function App() {
 
@@ -96,6 +97,10 @@ function App() {
         {
           path: "part5",
           element: <PartFivePage />
+        },
+        {
+          path: "part6",
+          element: <PartSixPage />
         }
       ],
     },
