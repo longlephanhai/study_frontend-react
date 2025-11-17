@@ -71,6 +71,14 @@ const ImportQuestionsPartTwo = (props: IProps) => {
   };
 
   const handleSubmit = async () => {
+    dataExcel.forEach((item: any) => {
+      item.options = item.options ? item.options.split("|") : [];
+      if (item.reading && item.reading.length > 1) {
+        item.reading = item.reading.split("|");
+      } else if (item.reading && item.reading.length === 1) {
+        item.reading = [item.reading];
+      }
+    });
     try {
       const response = await callApiCreateMultiplePartTwo(dataExcel);
       if (response.statusCode === 201) {
